@@ -440,18 +440,18 @@
         .contact-section a { color: var(--orange); text-decoration: none; }
 
         /* ── Section Nos Chiffres Clés ── */
-        .stats-section { padding: 80px 20px; background-color: #0f172a; }
+        .stats-section { padding: 40px 20px; background-color: #000000; }
         .stats-container { max-width: 1140px; margin: 0 auto; text-align: center; }
-        .stats-header { margin-bottom: 50px; }
-        .stats-header h2 { font-size: 2.2rem; color: var(--white); margin-bottom: 12px; font-weight: 700; }
-        .stats-header p { font-size: 1.1rem; color: #94a3b8; max-width: 600px; margin: 0 auto; }
-        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .stats-header { margin-bottom: 35px; }
+        .stats-header h2 { font-size: 2rem; color: var(--white); margin-bottom: 10px; font-weight: 700; }
+        .stats-header p { font-size: 1rem; color: #94a3b8; max-width: 600px; margin: 0 auto; }
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 
         .stat-card {
-            background: #1e293b;
-            padding: 40px 24px;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            background: #ffffff;
+            padding: 30px 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             border-left: 4px solid var(--orange);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             text-align: left;
@@ -463,52 +463,35 @@
         .stat-card:nth-child(3) { border-left-color: #3b82f6; }
 
         .stat-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
         }
 
         .stat-number-wrapper {
-            font-size: 3.2rem;
+            font-size: 2.8rem;
             font-weight: 800;
             line-height: 1.1;
-            margin-bottom: 12px;
-            color: var(--white);
+            margin-bottom: 8px;
+            color: var(--orange);
         }
-
-        .stat-icon {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-        }
-
-        .stat-card:nth-child(1) .stat-icon { background: rgba(255, 107, 0, 0.2); color: var(--orange); }
-        .stat-card:nth-child(2) .stat-icon { background: rgba(34, 197, 94, 0.2); color: #22c55e; }
-        .stat-card:nth-child(3) .stat-icon { background: rgba(59, 130, 246, 0.2); color: #3b82f6; }
 
         .stat-title {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
-            color: #e2e8f0;
-            margin-bottom: 8px;
+            color: var(--dark);
+            margin-bottom: 6px;
         }
 
         .stat-desc {
-            font-size: 0.9rem;
-            color: #94a3b8;
-            line-height: 1.5;
-            margin-bottom: 20px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+            margin-bottom: 16px;
         }
 
         .stat-progress {
             height: 4px;
-            background: rgba(255, 255, 255, 0.1);
+            background: #e2e8f0;
             border-radius: 2px;
             overflow: hidden;
         }
@@ -725,21 +708,18 @@
             </div>
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-icon"><i class="fas fa-hard-hat"></i></div>
                     <div class="stat-number-wrapper">+<span class="stat-counter" data-target="12">0</span> ans</div>
                     <div class="stat-title">D'expertise métier</div>
                     <div class="stat-desc">Un savoir-faire éprouvé au service de vos projets BTP.</div>
                     <div class="stat-progress"><div class="stat-progress-bar" style="--target-width: 75%"></div></div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon"><i class="fas fa-users"></i></div>
                     <div class="stat-number-wrapper">+<span class="stat-counter" data-target="450">0</span></div>
                     <div class="stat-title">Clients accompagnés</div>
                     <div class="stat-desc">Des entreprises et particuliers satisfaits partout dans le monde.</div>
                     <div class="stat-progress"><div class="stat-progress-bar" style="--target-width: 90%"></div></div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon"><i class="fas fa-smile"></i></div>
                     <div class="stat-number-wrapper"><span class="stat-counter" data-target="98">0</span>%</div>
                     <div class="stat-title">Taux de satisfaction</div>
                     <div class="stat-desc">Mesuré sur l'ensemble de nos livraisons cette année.</div>
