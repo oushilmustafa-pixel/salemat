@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matoccaz - Vente de Machines BTP</title>
+    <!-- Polices locales uniquement -->
+    <link rel="stylesheet" href="../Matoccaz/fonts/fonts.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --orange: #FF6B00;
+            --orange-hover: #E65C00;
+            --dark: #222222;
+            --white: #FFFFFF;
+            --light-gray: #F5F7FA;
+            --text-muted: #666666;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Open Sans', sans-serif; }
+        h1, h2, h3, .logo { font-family: 'Montserrat', sans-serif; }
+        body { background-color: var(--white); color: var(--dark); line-height: 1.6; overflow-x: hidden; width: 100%; }
+
+        /* ── Top Bar (orange fin) ── */
+        .top-bar {
+            background: var(--orange);
+            padding: 6px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .top-bar-info { color: var(--white); font-size: 0.85rem; font-weight: 600; }
+        .top-bar-info i { margin-right: 6px; }
+        .top-bar-social a { color: var(--white); font-size: 1rem; text-decoration: none; }
+
+        /* ── Header (blanc comme index.html) ── */
+        header {
+            background: var(--white);
+            padding: 5px 20px;
+            border-bottom: 1px solid #E1E4E8;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+        }
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+        }
+        .logo img { height: 50px; width: auto; object-fit: contain; }
+        nav { display: flex; gap: 30px; align-items: center; }
+        nav a { text-decoration: none; color: var(--dark); font-weight: 700; text-transform: uppercase; font-size: 0.9rem; transition: color 0.3s; }
+        nav a:hover, nav a.active { color: var(--orange); }
+        .menu-toggle { display: none; background: none; border: none; font-size: 1.8rem; color: var(--dark); cursor: pointer; }
+
+        /* ── Titre de page (bande grise fine) ── */
+        .page-title-band {
+            background: var(--light-gray);
+            padding: 30px 20px;
+            text-align: center;
+        }
+        .page-title-band h1 { font-size: 2rem; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; color: var(--dark); }
+        .page-title-band p { color: var(--orange); font-size: 1rem; font-weight: 600; margin-top: 6px; }
+
+        /* ── Catégories (cartes blanches sur fond gris clair) ── */
+        .categories-section { padding: 40px 20px; background: var(--light-gray); }
+        .container { max-width: 1200px; margin: 0 auto; width: 100%; }
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+        .category-card {
+            background: var(--white);
+            border-radius: 14px;
+            text-align: center;
+            min-height: 240px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 25px 15px;
+            border: 1px solid #EEE;
+            transition: transform 0.25s, box-shadow 0.25s;
+            position: relative;
+        }
+        .category-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 107, 0, 0);
+            transition: background 0.25s;
+            border-radius: 14px;
+            pointer-events: none;
+        }
+        .category-card:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(0,0,0,0.08); }
+        .category-card:hover::after { background: rgba(255, 107, 0, 0.04); }
+        .category-card .icon-img {
+            width: 130px;
+            height: 130px;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border-radius: 50%;
+            position: relative;
+            z-index: 1;
+            transition: transform 0.25s;
+            display: block;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+        .category-card:hover .icon-img { transform: scale(1.07); }
+        .category-card h3 {
+            color: var(--dark);
+            font-size: 0.95rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            z-index: 1;
+        }
+        .category-card a.link-overlay { position: absolute; inset: 0; z-index: 2; }
+
+        /* ── Section Comment ça marche moderne ── */
+        .process-section { padding: 60px 20px; background: var(--white); }
+        .section-header { text-align: center; margin-bottom: 50px; }
+        .section-header h2 { font-size: 2rem; text-transform: uppercase; color: var(--dark); margin-bottom: 10px; }
+        .section-header .subtitle { color: var(--text-muted); font-size: 1.05rem; margin-top: 10px; }
+        .line { width: 80px; height: 4px; background: var(--orange); margin: 0 auto; border-radius: 2px; }
+
+        .process-wrapper {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            position: relative;
+        }
+
+        .process-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 55%;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255, 107, 0, 0.15), transparent);
+            z-index: 0;
+        }
+
+        .step-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 50px 30px 40px;
+            text-align: center;
+            position: relative;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid transparent;
+            overflow: visible;
+            z-index: 1;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+        }
+
+        .step-card:hover {
+            transform: translateY(-12px);
+            border-color: var(--orange);
+            box-shadow: 0 20px 50px rgba(255, 107, 0, 0.12);
+        }
+
+        /* Grand numéro décoratif en arrière-plan */
+        .step-card::before {
+            content: attr(data-step);
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            font-size: 6rem;
+            font-weight: 900;
+            color: rgba(255, 107, 0, 0.05);
+            z-index: 0;
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1;
+            transition: all 0.4s ease;
+            pointer-events: none;
+        }
+
+        .step-card:hover::before {
+            color: rgba(255, 107, 0, 0.1);
+            transform: rotate(5deg) scale(1.1);
+        }
+
+        /* Numéro cercle animé au-dessus de l'icône */
+        .step-number {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 56px;
+            height: 56px;
+            background: var(--orange);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 900;
+            font-family: 'Montserrat', sans-serif;
+            box-shadow: 0 6px 20px rgba(255, 107, 0, 0.35);
+            transition: all 0.4s ease;
+            z-index: 5;
+        }
+
+        .step-card:hover .step-number {
+            background: var(--dark);
+            transform: translateX(-50%) scale(1.15) rotate(-5deg);
+            box-shadow: 0 8px 25px rgba(34, 34, 34, 0.4);
+        }
+
+        .icon-wrapper {
+            width: 100px;
+            height: 100px;
+            background: var(--light-gray);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 25px auto 20px;
+            position: relative;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 3px solid transparent;
+            z-index: 2;
+        }
+
+        .step-card:hover .icon-wrapper {
+            background: var(--orange);
+            border-color: var(--orange);
+            transform: scale(1.1) rotate(360deg);
+            box-shadow: 0 8px 25px rgba(255, 107, 0, 0.3);
+        }
+
+        .icon-wrapper i {
+            font-size: 2.5rem;
+            color: var(--orange);
+            transition: all 0.3s ease;
+        }
+
+        .step-card:hover .icon-wrapper i {
+            color: var(--white);
+            transform: scale(1.1);
+        }
+
+        .step-card h3 {
+            font-size: 1.15rem;
+            text-transform: uppercase;
+            margin-bottom: 14px;
+            color: var(--dark);
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .step-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            max-width: 280px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            transition: color 0.3s ease;
+        }
+
+        .step-card:hover p { color: var(--dark); }
+
+        .process-footer {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .process-footer p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        .cta-link {
+            color: var(--orange);
+            font-weight: 800;
+            text-decoration: none;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .cta-link:hover {
+            color: var(--dark);
+            border-bottom-color: var(--dark);
+        }
+
+        /* Flèches connecteurs desktop */
+        @media (min-width: 992px) {
+            .step-card:not(:last-child)::after {
+                content: '\f061';
+                font-family: 'Font Awesome 6 Free';
+                font-weight: 900;
+                position: absolute;
+                top: 50%;
+                right: -28px;
+                font-size: 1.3rem;
+                color: rgba(255, 107, 0, 0.25);
+                z-index: 5;
+                transform: translateY(-50%);
+                transition: all 0.3s ease;
+            }
+            .step-card:hover:not(:last-child)::after {
+                color: var(--orange);
+                right: -35px;
+                font-size: 1.6rem;
+            }
+        }
+
+        @media (max-width: 991px) {
+            .process-wrapper { grid-template-columns: 1fr; gap: 50px; max-width: 400px; margin: 0 auto; }
+            .process-wrapper::before { display: none; }
+            .step-card::before { font-size: 5rem; }
+            .step-number { width: 50px; height: 50px; font-size: 1.1rem; }
+            .icon-wrapper { width: 80px; height: 80px; }
+            .icon-wrapper i { font-size: 2rem; }
+        }
+
+        /* ── Dernières arrivées ── */
+        .arrivals-section { padding: 40px 20px; background: var(--white); }
+        .machines-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        .machine-card {
+            background: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #EEE;
+            transition: transform 0.25s, box-shadow 0.25s;
+        }
+        .machine-card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0,0,0,0.08); }
+        .machine-img { width: 100%; height: 200px; object-fit: cover; display: block; border-bottom: 3px solid var(--orange); }
+        .machine-info { padding: 20px; }
+        .machine-info h3 { margin-bottom: 6px; font-size: 1.1rem; text-transform: uppercase; color: var(--dark); }
+        .machine-info p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 16px; }
+        .btn-card {
+            display: block;
+            text-align: center;
+            background: var(--dark);
+            color: var(--white);
+            padding: 11px 16px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+        .btn-card:hover { background: var(--orange); }
+
+        /* ── Contact ── */
+        .contact-section { padding: 30px 20px; background: var(--light-gray); text-align: center; }
+        .contact-section h2 { font-size: 1.8rem; text-transform: uppercase; margin-bottom: 14px; color: var(--dark); }
+        .contact-section p { color: var(--text-muted); font-size: 0.95rem; line-height: 2; }
+        .contact-section a { color: var(--orange); text-decoration: none; }
+
+        /* ── Footer ── */
+        footer { background: var(--light-gray); padding: 30px 20px; text-align: center; width: 100%; border-top: 1px solid #E1E4E8; }
+        footer p { color: var(--text-muted); font-size: 0.85rem; }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; }
+            nav {
+                position: absolute; top: 100%; left: 0; width: 100%;
+                background: var(--white); flex-direction: column;
+                max-height: 0; overflow: hidden; transition: max-height 0.3s ease-in-out;
+                border-bottom: 1px solid #E1E4E8; box-shadow: 0 10px 15px rgba(0,0,0,0.05);
+            }
+            nav.active { max-height: 400px; }
+            nav a { padding: 15px 0; width: 100%; text-align: center; border-bottom: 1px solid #F0F0F0; }
+            .categories-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+            .page-title-band h1 { font-size: 1.6rem; }
+        }
+        @media (max-width: 480px) { .categories-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } }
+    </style>
+</head>
+<body>
+
+    <!-- Top Bar orange -->
+    <div class="top-bar">
+        <span class="top-bar-info"><i class="fas fa-phone"></i>+33 (0)5 49 49 49 49</span>
+        <div class="top-bar-social">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+        </div>
+    </div>
+
+    <!-- Header blanc avec logo local -->
+    <header>
+        <div class="header-container">
+            <a href="../index.html" class="logo"><img src="https://www.image2url.com/r2/default/images/1793273365525-4be732ac-f8a7-460e-ad9f-9dec89724549.png" alt="Matoccaz Logo"></a>
+            <button class="menu-toggle" id="menuBtn"><i class="fas fa-bars"></i></button>
+            <nav id="navMenu">
+                <a href="../index.html">Accueil</a>
+                <a href="#">Location</a>
+                <a href="sale.html" class="active">Ventes</a>
+                <a href="#">Transport</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Bandeau titre gris clair -->
+    <section class="page-title-band">
+        <h1>Ventes</h1>
+        <p>Choisissez le type de machine que vous recherchez</p>
+    </section>
+
+    <!-- Grille catégories (fond clair, cartes blanches) -->
+    <section class="categories-section">
+        <div class="container">
+            <div class="categories-grid">
+                <div class="category-card">
+                    <a class="link-overlay" href="#chargeuses-ch"></a>
+                    <img class="icon-img" src="https://i.ibb.co/dsZbp69r/Gemini-Generated-Image-5xv4yu5xv4yu5xv4.png" alt="Chargeuses sur chenilles">
+                    <h3>Chargeuses sur chenilles</h3>
+                </div>
+                <div class="category-card">
+                    <a class="link-overlay" href="#chargeuses-pneus"></a>
+                    <img class="icon-img" src="https://i.ibb.co/YGH6nbW/Gemini-Generated-Image-g2di0kg2di0kg2di.png" alt="Chargeuses sur pneus">
+                    <h3>Chargeuses sur pneus</h3>
+                </div>
+                <div class="category-card">
+                    <a class="link-overlay" href="#bulldozers"></a>
+                    <img class="icon-img" src="https://i.ibb.co/dsZbp69r/Gemini-Generated-Image-5xv4yu5xv4yu5xv4.png" alt="Bulldozers">
+                    <h3>Bulldozers</h3>
+                </div>
+                <div class="category-card">
+                    <a class="link-overlay" href="#tombereaux"></a>
+                    <img class="icon-img" src="https://i.ibb.co/KxqGSgVY/Gemini-Generated-Image-u0iij9u0iij9u0ii.png" alt="Tombereaux">
+                    <h3>Tombereaux</h3>
+                </div>
+                <div class="category-card">
+                    <a class="link-overlay" href="#rouleaux"></a>
+                    <img class="icon-img" src="https://i.ibb.co/wh82Gkbn/Gemini-Generated-Image-gadvtggadvtggadv.png" alt="Rouleaux compacteurs">
+                    <h3>Rouleaux compacteurs</h3>
+                </div>
+                <div class="category-card">
+                    <a class="link-overlay" href="#grues"></a>
+                    <img class="icon-img" src="https://i.ibb.co/FkhR9Sg9/Sans-titre-1.png" alt="Grues">
+                    <h3>Grues</h3>
+                </div>
+                <div class="category-card">
+                    <a class="link-overlay" href="#niveleuses"></a>
+                    <img class="icon-img" src="https://i.ibb.co/Q3Z86NXq/Gemini-Generated-Image-pujse0pujse0pujs.png" alt="Niveleuses">
+                    <h3>Niveleuses</h3>
+                </div>
+                <div class="category-card">
+                    <a class="link-overlay" href="#telescopiques"></a>
+                    <img class="icon-img" src="https://i.ibb.co/FqH6jy5W/Gemini-Generated-Image-gn6knogn6knogn6k.png" alt="Chariots télescopiques">
+                    <h3>Chariots télescopiques</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Comment ça marche moderne -->
+    <section class="process-section" id="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <h2>Comment acheter chez Matoccaz ?</h2>
+                <div class="line"></div>
+                <p class="subtitle">Une expérience d'achat simple et transparente en trois étapes</p>
+            </div>
+
+            <div class="process-wrapper">
+                <!-- Étape 1 -->
+                <div class="step-card" data-step="1">
+                    <div class="step-number">01</div>
+                    <div class="icon-wrapper">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>Trouvez votre matériel</h3>
+                    <p>Explorez notre catalogue complet et filtrez les machines selon vos besoins spécifiques, votre budget et votre région.</p>
+                </div>
+
+                <!-- Étape 2 -->
+                <div class="step-card" data-step="2">
+                    <div class="step-number">02</div>
+                    <div class="icon-wrapper">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>Contactez nos experts</h3>
+                    <p>Notre équipe de spécialistes vous accompagne avec des conseils techniques personnalisés et un devis sur mesure.</p>
+                </div>
+
+                <!-- Étape 3 -->
+                <div class="step-card" data-step="3">
+                    <div class="step-number">03</div>
+                    <div class="icon-wrapper">
+                        <i class="fas fa-truck-fast"></i>
+                    </div>
+                    <h3>On s'occupe de tout</h3>
+                    <p>De la validation à la livraison, nous gérons chaque détail pour que vous receviez votre équipement prêt à l'emploi.</p>
+                </div>
+            </div>
+
+            <div class="process-footer">
+                <p>Prêt à démarrer ? <a href="#contact" class="cta-link">Contactez notre équipe d'experts dès aujourd'hui</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dernières arrivées -->
+    <section class="arrivals-section" id="arrives">
+        <div class="container">
+            <div class="section-header">
+                <h2>Nos dernières arrivées</h2>
+                <div class="line"></div>
+            </div>
+            <div class="machines-grid">
+                <div class="machine-card">
+                    <img src="https://i.ibb.co/qYnGwxFk/27779-5.jpg" alt="CATERPILLAR D400D" class="machine-img">
+                    <div class="machine-info">
+                        <h3>CATERPILLAR D400D</h3>
+                        <p>Tombereau articulé — Neuf · 2024</p>
+                        <a href="https://ibb.co/2362B5Yg" class="btn-card">Voir les détails</a>
+                    </div>
+                </div>
+                <div class="machine-card">
+                    <img src="https://i.ibb.co/cKFqPPqM/000000000000029483-5.jpg" alt="KOMATSU PC26MR-5" class="machine-img">
+                    <div class="machine-info">
+                        <h3>KOMATSU PC26MR-5</h3>
+                        <p>Mini-pelle — Occasion vérifié · 2023</p>
+                        <a href="https://ibb.co/wZWtTTt3" class="btn-card">Voir les détails</a>
+                    </div>
+                </div>
+                <div class="machine-card">
+                    <img src="https://i.ibb.co/606gqxcQ/000000000000028540-5.jpg" alt="MANITOU MT1840" class="machine-img">
+                    <div class="machine-info">
+                        <h3>MANITOU MT1840</h3>
+                        <p>Chariot télescopique — Neuf · 2025</p>
+                        <a href="https://ibb.co/RTLzJmG8" class="btn-card">Voir les détails</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="contact-section" id="contact">
+        <h2>Contactez-nous</h2>
+        <p>
+            MATOCCAZ — 31 Avenue des Temps Modernes, 86360 CHASSENEUIL DU POITOU<br>
+            Téléphone : <a href="tel:+33549494949">+33 (0)5 49 49 49 49</a><br>
+            Email : <a href="mailto:contact@matoccaz.fr">contact@matoccaz.fr</a>
+        </p>
+    </section>
+
+    <footer>
+        <p>MATOCCAZ – Tous droits réservés © 2026</p>
+    </footer>
+
+    <script>
+        const menuBtn = document.getElementById('menuBtn');
+        const navMenu = document.getElementById('navMenu');
+        const menuIcon = menuBtn.querySelector('i');
+        menuBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            menuIcon.className = navMenu.classList.contains('active') ? 'fas fa-times' : 'fas fa-bars';
+        });
+    </script>
+</body>
+</html>
