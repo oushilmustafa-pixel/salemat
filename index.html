@@ -215,6 +215,34 @@
             box-shadow: 0 8px 25px rgba(34, 34, 34, 0.4);
         }
 
+        /* Effets tactiles améliorés pour mobile */
+        @media (hover: none) and (pointer: coarse) {
+            .step-card.touched .step-number {
+                background: var(--dark);
+                transform: translateX(-50%) scale(1.15) rotate(-5deg);
+                box-shadow: 0 8px 25px rgba(34, 34, 34, 0.4);
+            }
+            .step-card.touched .icon-wrapper {
+                background: var(--orange);
+                border-color: var(--orange);
+                transform: scale(1.1) rotate(360deg);
+                box-shadow: 0 8px 25px rgba(255, 107, 0, 0.3);
+            }
+            .step-card.touched .icon-wrapper i {
+                color: var(--white);
+                transform: scale(1.1);
+            }
+            .step-card.touched::before {
+                color: rgba(255, 107, 0, 0.15);
+                transform: rotate(5deg) scale(1.1);
+            }
+            .step-card.touched {
+                transform: translateY(-12px);
+                border-color: var(--orange);
+                box-shadow: 0 20px 50px rgba(255, 107, 0, 0.15);
+            }
+        }
+
         .icon-wrapper {
             width: 100px;
             height: 100px;
@@ -571,6 +599,19 @@
             navMenu.classList.toggle('active');
             menuIcon.className = navMenu.classList.contains('active') ? 'fas fa-times' : 'fas fa-bars';
         });
+
+        // Mobile touch feedback for process section — toggle 'touched' class so effects persist after tap
+        if (window.matchMedia('(hover: none) and (pointer: coarse)').matches) {
+            document.querySelectorAll('.step-card').forEach(card => {
+                card.addEventListener('touchstart', function() {
+                    document.querySelectorAll('.step-card').forEach(c => c.classList.remove('touched'));
+                    this.classList.add('touched');
+                }, { passive: true });
+                card.addEventListener('touchend', function() {
+                    setTimeout(() => this.classList.remove('touched'), 800);
+                }, { passive: true });
+            });
+        }
     </script>
 </body>
 </html>
