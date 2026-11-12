@@ -439,6 +439,100 @@
         .contact-section p { color: var(--text-muted); font-size: 0.95rem; line-height: 2; }
         .contact-section a { color: var(--orange); text-decoration: none; }
 
+        /* ── Section Nos Chiffres Clés ── */
+        .stats-section { padding: 80px 20px; background-color: #0f172a; }
+        .stats-container { max-width: 1140px; margin: 0 auto; text-align: center; }
+        .stats-header { margin-bottom: 50px; }
+        .stats-header h2 { font-size: 2.2rem; color: var(--white); margin-bottom: 12px; font-weight: 700; }
+        .stats-header p { font-size: 1.1rem; color: #94a3b8; max-width: 600px; margin: 0 auto; }
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+
+        .stat-card {
+            background: #1e293b;
+            padding: 40px 24px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border-left: 4px solid var(--orange);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card:nth-child(2) { border-left-color: #22c55e; }
+        .stat-card:nth-child(3) { border-left-color: #3b82f6; }
+
+        .stat-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .stat-number-wrapper {
+            font-size: 3.2rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 12px;
+            color: var(--white);
+        }
+
+        .stat-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .stat-card:nth-child(1) .stat-icon { background: rgba(255, 107, 0, 0.2); color: var(--orange); }
+        .stat-card:nth-child(2) .stat-icon { background: rgba(34, 197, 94, 0.2); color: #22c55e; }
+        .stat-card:nth-child(3) .stat-icon { background: rgba(59, 130, 246, 0.2); color: #3b82f6; }
+
+        .stat-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #e2e8f0;
+            margin-bottom: 8px;
+        }
+
+        .stat-desc {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .stat-progress {
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .stat-progress-bar {
+            height: 100%;
+            width: 0;
+            border-radius: 2px;
+            transition: width 1.5s ease-out;
+        }
+
+        .stat-card.animated .stat-progress-bar {
+            width: var(--target-width);
+        }
+
+        .stat-card:nth-child(1) .stat-progress-bar { background: var(--orange); }
+        .stat-card:nth-child(2) .stat-progress-bar { background: #22c55e; }
+        .stat-card:nth-child(3) .stat-progress-bar { background: #3b82f6; }
+
+        @media (max-width: 768px) {
+            .stats-grid { grid-template-columns: 1fr; gap: 20px; }
+            .stats-header h2 { font-size: 1.8rem; }
+        }
+
         /* ── Footer ── */
         footer { background: var(--light-gray); padding: 30px 20px; text-align: center; width: 100%; border-top: 1px solid #E1E4E8; }
         footer p { color: var(--text-muted); font-size: 0.85rem; }
@@ -622,6 +716,39 @@
         </div>
     </section>
 
+    <!-- Nos Chiffres Clés -->
+    <section class="stats-section" id="nos-chiffres">
+        <div class="stats-container">
+            <div class="stats-header">
+                <h2>Notre impact en quelques chiffres</h2>
+                <p>Des résultats concrets qui témoignent de notre engagement et de la confiance de nos clients.</p>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-hard-hat"></i></div>
+                    <div class="stat-number-wrapper">+<span class="stat-counter" data-target="12">0</span> ans</div>
+                    <div class="stat-title">D'expertise métier</div>
+                    <div class="stat-desc">Un savoir-faire éprouvé au service de vos projets BTP.</div>
+                    <div class="stat-progress"><div class="stat-progress-bar" style="--target-width: 75%"></div></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-users"></i></div>
+                    <div class="stat-number-wrapper">+<span class="stat-counter" data-target="450">0</span></div>
+                    <div class="stat-title">Clients accompagnés</div>
+                    <div class="stat-desc">Des entreprises et particuliers satisfaits partout dans le monde.</div>
+                    <div class="stat-progress"><div class="stat-progress-bar" style="--target-width: 90%"></div></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-smile"></i></div>
+                    <div class="stat-number-wrapper"><span class="stat-counter" data-target="98">0</span>%</div>
+                    <div class="stat-title">Taux de satisfaction</div>
+                    <div class="stat-desc">Mesuré sur l'ensemble de nos livraisons cette année.</div>
+                    <div class="stat-progress"><div class="stat-progress-bar" style="--target-width: 98%"></div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Contact -->
     <section class="contact-section" id="contact">
         <h2>Contactez-nous</h2>
@@ -681,6 +808,52 @@
             });
 
             ticking = false;
+        }
+
+        // Animation for stats counters
+        const statCounters = document.querySelectorAll('.stat-counter');
+        const statsSection = document.querySelector('#nos-chiffres');
+        let statsAnimated = false;
+
+        if (statsSection) {
+            const statsObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !statsAnimated) {
+                        statsAnimated = true;
+
+                        // Animate counters
+                        statCounters.forEach(counter => {
+                            const target = +counter.getAttribute('data-target');
+                            const duration = 2000;
+                            const startTime = performance.now();
+
+                            const animate = (currentTime) => {
+                                const elapsed = currentTime - startTime;
+                                const progress = Math.min(elapsed / duration, 1);
+                                const easeOut = 1 - Math.pow(1 - progress, 3);
+                                counter.textContent = Math.floor(easeOut * target);
+
+                                if (progress < 1) {
+                                    requestAnimationFrame(animate);
+                                } else {
+                                    counter.textContent = target;
+                                }
+                            };
+
+                            requestAnimationFrame(animate);
+                        });
+
+                        // Animate progress bars
+                        setTimeout(() => {
+                            document.querySelectorAll('.stat-card').forEach(card => {
+                                card.classList.add('animated');
+                            });
+                        }, 300);
+                    }
+                });
+            }, { threshold: 0.3 });
+
+            statsObserver.observe(statsSection);
         }
 
         window.addEventListener('scroll', () => {
