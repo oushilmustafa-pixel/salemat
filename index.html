@@ -645,59 +645,61 @@
             menuIcon.className = navMenu.classList.contains('active') ? 'fas fa-times' : 'fas fa-bars';
         });
 
-        // Scroll animation — PC hover improved + mobile staggered by card
+        // Scroll animation — simple & stable for PC + mobile
         const processSection = document.getElementById('how-it-works');
-
-        // --- PC: Improved hover with smooth transition between cards ---
         const stepCards = document.querySelectorAll('.step-card');
+        let ticking = false;
 
+        function updateAnimations() {
+            if (!processSection) return;
+
+            const rect = processSection.getBoundingClientRect();
+            const vh = window.innerHeight;
+
+            // Section visible in viewport?
+            const sectionVisible = rect.bottom > vh * 0.2 && rect.top < vh * 0.8;
+
+            stepCards.forEach((card, index) => {
+                const cardRect = card.getBoundingClientRect();
+
+                // Card in middle 50% of viewport
+                const isVisible = sectionVisible && cardRect.bottom > vh * 0.3 && cardRect.top < vh * 0.7;
+
+                if (isVisible) {
+                    // Add classes with stagger delay
+                    card.classList.add('scroll-visible');
+
+                    setTimeout(() => {
+                        card.classList.add('scroll-active');
+                    }, index * 150);
+                } else {
+                    // Only reset if completely out of view (top or bottom)
+                    if (rect.bottom < vh * 0.1 || rect.top > vh * 0.9) {
+                        card.classList.remove('scroll-visible', 'scroll-active');
+                    }
+                }
+            });
+
+            ticking = false;
+        }
+
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(updateAnimations);
+                ticking = true;
+            }
+        }, { passive: true });
+
+        // PC hover effect
         stepCards.forEach(card => {
             card.addEventListener('mouseenter', () => {
-                // Remove scroll-active from ALL cards first (smooth reset)
                 stepCards.forEach(c => c.classList.remove('scroll-active'));
-                // Add to current card only
                 card.classList.add('scroll-active');
             });
         });
 
-        // --- Mobile: Staggered animation per card using IntersectionObserver ---
-        function initMobileAnimations() {
-            const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
-
-            if (!isTouchDevice || !processSection) return;
-
-            // Create observer for each card individually
-            stepCards.forEach((card, index) => {
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting && entry.intersectionRatio > 0.3) {
-                            // Card visible — add staggered classes
-                            card.classList.add('scroll-visible');
-
-                            // Activate after stagger delay
-                            setTimeout(() => {
-                                card.classList.add('scroll-active');
-                            }, 200 + (index * 150));
-                        } else if (entry.intersectionRatio < 0.1) {
-                            // Card left viewport — reset
-                            card.classList.remove('scroll-visible', 'scroll-active');
-                        }
-                    });
-                }, {
-                    threshold: [0, 0.1, 0.3, 0.5, 0.7, 1.0],
-                    rootMargin: '-10% 0px -10% 0px'
-                });
-
-                observer.observe(card);
-            });
-        }
-
-        // Initialize everything when DOM is ready
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initMobileAnimations);
-        } else {
-            initMobileAnimations();
-        }
+        // Initial check
+        setTimeout(updateAnimations, 200);
     </script>
 </body>
 </html>
