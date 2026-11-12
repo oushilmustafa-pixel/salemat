@@ -217,17 +217,16 @@
 
         /* Animation au scroll — mêmes effets que hover */
         .step-card {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(0);
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
         }
         .step-card.scroll-visible {
             opacity: 1;
             transform: translateY(0);
         }
-        .step-card:nth-child(1).scroll-visible { transition-delay: 0.1s; }
-        .step-card:nth-child(2).scroll-visible { transition-delay: 0.25s; }
-        .step-card:nth-child(3).scroll-visible { transition-delay: 0.4s; }
+        .step-card:nth-child(1).scroll-visible { transition-delay: 0.05s; }
+        .step-card:nth-child(2).scroll-visible { transition-delay: 0.15s; }
+        .step-card:nth-child(3).scroll-visible { transition-delay: 0.25s; }
 
         /* Effet "scroll-hover" — active au scroll comme un hover persistant */
         .step-card.scroll-active {
@@ -257,32 +256,31 @@
         .step-card.scroll-active p { color: var(--dark); }
 
         @media (hover: none) and (pointer: coarse) {
-            /* Sur mobile : l'effet reste actif après le premier scroll */
-            .step-card.scroll-active .step-number {
-                background: var(--dark) !important;
-            }
-        }
-
-        @media (hover: none) and (pointer: coarse) {
+            /* Sur mobile : effets actifs au scroll */
+            .step-card.scroll-active .step-number,
             .step-card.touched .step-number {
-                background: var(--dark);
+                background: var(--dark) !important;
                 transform: translateX(-50%) scale(1.15) rotate(-5deg);
                 box-shadow: 0 8px 25px rgba(34, 34, 34, 0.4);
             }
+            .step-card.scroll-active .icon-wrapper,
             .step-card.touched .icon-wrapper {
                 background: var(--orange);
                 border-color: var(--orange);
                 transform: scale(1.1) rotate(360deg);
                 box-shadow: 0 8px 25px rgba(255, 107, 0, 0.3);
             }
+            .step-card.scroll-active .icon-wrapper i,
             .step-card.touched .icon-wrapper i {
                 color: var(--white);
                 transform: scale(1.1);
             }
+            .step-card.scroll-active::before,
             .step-card.touched::before {
                 color: rgba(255, 107, 0, 0.15);
                 transform: rotate(5deg) scale(1.1);
             }
+            .step-card.scroll-active,
             .step-card.touched {
                 transform: translateY(-12px);
                 border-color: var(--orange);
@@ -647,55 +645,73 @@
             menuIcon.className = navMenu.classList.contains('active') ? 'fas fa-times' : 'fas fa-bars';
         });
 
-        // Scroll-triggered animation — triggers on EVERY scroll up AND down
+        // Scroll animation — triggers on EVERY scroll up/down
         const processSection = document.getElementById('how-it-works');
-        let isAnimating = false;
+        let lastScrollY = 0;
+        let ticking = false;
 
         function checkAnimation() {
-            if (!processSection || isAnimating) return;
+            if (!processSection) return;
 
             const rect = processSection.getBoundingClientRect();
             const vh = window.innerHeight;
 
-            // Section enters viewport from any direction
-            const hasEntered = rect.bottom > vh * 0.2 && rect.top < vh * 0.8;
-            // Section completely left viewport
-            const hasLeft = rect.bottom < vh * 0.05 || rect.top > vh * 0.95;
+            // Detect scroll direction
+            const scrollingUp = window.scrollY < lastScrollY;
+            lastScrollY = window.scrollY;
 
-            if (hasLeft) {
-                // Reset all cards when scrolled away
-                document.querySelectorAll('.step-card').forEach(card => {
-                    card.classList.remove('scroll-visible', 'scroll-active');
-                });
-                isAnimating = false;
-            } else if (hasEntered && !isAnimating) {
-                // Fresh entrance animation on every entry
-                isAnimating = true;
-                // Force reflow to restart CSS transitions
-                document.querySelectorAll('.step-card').forEach(card => {
-                    card.classList.remove('scroll-visible', 'scroll-active');
-                    void card.offsetWidth;
-                });
+            // Section visible in viewport
+            const isVisible = rect.bottom > vh * 0.2 && rect.top < vh * 0.8;
+            // Section mostly out of view
+            const isOut = rect.bottom < vh * 0.1 || rect.top > vh * 0.9;
 
+            if (isVisible && !isOut) {
                 const cards = document.querySelectorAll('.step-card');
-                cards.forEach((card, i) => {
-                    setTimeout(() => {
-                        card.classList.add('scroll-visible');
-                    }, i * 100);
-                });
 
-                // Apply hover-like effects after entrance completes
-                setTimeout(() => {
+                // If scrolling UP and section is visible, reset and replay
+                if (scrollingUp) {
                     cards.forEach(card => {
-                        card.classList.add('scroll-active');
+                        card.classList.remove('scroll-visible', 'scroll-active');
+                        void card.offsetWidth;
                     });
-                    isAnimating = false;
-                }, 450 + cards.length * 100);
+
+                    // Staggered re-animation
+                    cards.forEach((card, i) => {
+                        setTimeout(() => card.classList.add('scroll-visible'), i * 100);
+                    });
+                    setTimeout(() => {
+                        cards.forEach(card => card.classList.add('scroll-active'));
+                    }, 350 + cards.length * 100);
+                } else {
+                    // Scrolling down or first time — just activate
+                    const hasAnimated = Array.from(cards).some(c => c.classList.contains('scroll-visible'));
+                    if (!hasAnimated) {
+                        cards.forEach((card, i) => {
+                            setTimeout(() => card.classList.add('scroll-visible'), i * 100);
+                        });
+                        setTimeout(() => {
+                            cards.forEach(card => card.classList.add('scroll-active'));
+                        }, 350 + cards.length * 100);
+                    } else {
+                        // Already animated and visible — keep active state
+                        cards.forEach(card => card.classList.add('scroll-active'));
+                    }
+                }
+            } else if (isOut) {
+                // Completely out of view — reset
+                document.querySelectorAll('.step-card').forEach(card => {
+                    card.classList.remove('scroll-visible', 'scroll-active');
+                });
             }
+
+            ticking = false;
         }
 
         window.addEventListener('scroll', () => {
-            requestAnimationFrame(checkAnimation);
+            if (!ticking) {
+                requestAnimationFrame(checkAnimation);
+                ticking = true;
+            }
         }, { passive: true });
 
         checkAnimation();
