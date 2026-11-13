@@ -15,6 +15,7 @@
             --white: #FFFFFF;
             --light-gray: #F5F7FA;
             --text-muted: #666666;
+            --black: #111111;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Open Sans', sans-serif; }
         h1, h2, h3, .logo { font-family: 'Montserrat', sans-serif; }
@@ -59,14 +60,14 @@
         /* ── Titre de page (bande grise fine) ── */
         .page-title-band {
             background: var(--light-gray);
-            padding: 30px 20px;
+            padding: 30px 20px 0 20px;
             text-align: center;
         }
-        .page-title-band h1 { font-size: 2rem; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; color: var(--dark); }
-        .page-title-band p { color: var(--orange); font-size: 1rem; font-weight: 600; margin-top: 6px; }
+        .page-title-band h1 { font-size: 2rem; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; color: var(--dark); margin: 0; }
+        .page-title-band p { color: var(--orange); font-size: 1rem; font-weight: 600; margin-top: 6px; margin-bottom: 0; }
 
         /* ── Catégories (cartes blanches sur fond gris clair) ── */
-        .categories-section { padding: 40px 20px; background: var(--light-gray); }
+        .categories-section { padding: 30px 20px; background: var(--light-gray); }
         .container { max-width: 1200px; margin: 0 auto; width: 100%; }
         .categories-grid {
             display: grid;
@@ -123,8 +124,8 @@
         .category-card a.link-overlay { position: absolute; inset: 0; z-index: 2; }
 
         /* ── Section Comment ça marche moderne ── */
-        .process-section { padding: 60px 20px; background: var(--white); }
-        .section-header { text-align: center; margin-bottom: 50px; }
+        .process-section { padding: 30px 20px; background: var(--white); }
+        .section-header { text-align: center; margin-bottom: 25px; }
         .section-header h2 { font-size: 2rem; text-transform: uppercase; color: var(--dark); margin-bottom: 10px; }
         .section-header .subtitle { color: var(--text-muted); font-size: 1.05rem; margin-top: 10px; }
         .line { width: 80px; height: 4px; background: var(--orange); margin: 0 auto; border-radius: 2px; }
@@ -400,7 +401,7 @@
         }
 
         /* ── Dernières arrivées ── */
-        .arrivals-section { padding: 40px 20px; background: var(--white); }
+        .arrivals-section { padding: 20px 20px; background: var(--white); }
         .machines-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -432,12 +433,6 @@
             transition: background 0.3s;
         }
         .btn-card:hover { background: var(--orange); }
-
-        /* ── Contact ── */
-        .contact-section { padding: 30px 20px; background: var(--light-gray); text-align: center; }
-        .contact-section h2 { font-size: 1.8rem; text-transform: uppercase; margin-bottom: 14px; color: var(--dark); }
-        .contact-section p { color: var(--text-muted); font-size: 0.95rem; line-height: 2; }
-        .contact-section a { color: var(--orange); text-decoration: none; }
 
         /* ── Section Nos Chiffres Clés ── */
         .stats-section { padding: 40px 20px; background-color: #000000; }
@@ -516,9 +511,73 @@
             .stats-header h2 { font-size: 1.8rem; }
         }
 
+        /* ── FAQ --- */
+        .section-faq {
+            background-color: var(--light-gray);
+            padding: 60px 20px;
+        }
+        .faq-container { max-width: 800px; margin: 0 auto; }
+        .section-faq h2 { text-align: center; font-size: 2rem; text-transform: uppercase; margin-bottom: 40px; }
+        .section-faq h2 span { color: var(--orange); }
+        .faq-item {
+            background: var(--white);
+            margin-bottom: 12px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            overflow: hidden;
+        }
+        .faq-question {
+            width: 100%;
+            padding: 18px 24px;
+            background: none;
+            border: none;
+            text-align: left;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--dark);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: color 0.3s;
+            font-family: 'Open Sans', sans-serif;
+        }
+        .faq-question:hover { color: var(--orange); }
+        .faq-icon {
+            font-size: 1.5rem;
+            color: var(--orange);
+            font-weight: 400;
+            transition: transform 0.3s ease;
+            line-height: 1;
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease-out;
+        }
+        .faq-answer p { padding: 0 24px 18px 24px; color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; }
+        .faq-item.open .faq-answer { max-height: 300px; }
+        .faq-item.open .faq-icon { transform: rotate(45deg); }
+
         /* ── Footer ── */
-        footer { background: var(--light-gray); padding: 30px 20px; text-align: center; width: 100%; border-top: 1px solid #E1E4E8; }
-        footer p { color: var(--text-muted); font-size: 0.85rem; }
+        footer { background-color: #111111; color: var(--white); padding: 50px 20px 20px 20px; border-top: 5px solid var(--orange); }
+        .footer-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-bottom: 30px; }
+        .footer-col h3 { color: var(--orange); font-size: 1rem; font-weight: 700; text-transform: uppercase; margin-bottom: 20px; letter-spacing: 1px; }
+        .footer-links, .footer-contact { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+        .footer-links li, .footer-contact li { height: auto; display: block; }
+        .footer-links a, .footer-contact a { color: #AAAAAA; text-decoration: none; transition: color 0.3s; font-size: 0.95rem; }
+        .footer-links a:hover, .footer-contact a:hover { color: var(--white); }
+        .footer-contact li.address { line-height: 1.6; color: #AAAAAA; font-size: 0.95rem; }
+        .footer-bottom { max-width: 1200px; margin: 0 auto; padding-top: 20px; border-top: 1px solid #333; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; color: #777; font-size: 0.85rem; }
+        .footer-legal { display: flex; gap: 30px; }
+        .footer-legal a { color: #777; text-decoration: none; transition: color 0.3s; }
+        .footer-legal a:hover { color: var(--white); }
+
+        @media (max-width: 768px) {
+            .footer-container { grid-template-columns: 1fr; gap: 30px; }
+            .footer-bottom { flex-direction: column; text-align: center; gap: 15px; }
+            .footer-legal { justify-content: center; }
+        }
 
         /* ── Responsive ── */
         @media (max-width: 768px) {
@@ -554,10 +613,8 @@
             <button class="menu-toggle" id="menuBtn"><i class="fas fa-bars"></i></button>
             <nav id="navMenu">
                 <a href="../index.html">Accueil</a>
-                <a href="#">Location</a>
                 <a href="sale.html" class="active">Ventes</a>
-                <a href="#">Transport</a>
-                <a href="#contact">Contact</a>
+                <a href="mailto:contact@matoccaz.fr">Contact</a>
             </nav>
         </div>
     </header>
@@ -658,7 +715,7 @@
             </div>
 
             <div class="process-footer">
-                <p>Prêt à démarrer ? <a href="#contact" class="cta-link">Contactez notre équipe d'experts dès aujourd'hui</a></p>
+                <p>Prêt à démarrer ? <a href="mailto:contact@matoccaz.fr" class="cta-link">Contactez notre équipe d'experts dès aujourd'hui</a></p>
             </div>
         </div>
     </section>
@@ -704,7 +761,7 @@
         <div class="stats-container">
             <div class="stats-header">
                 <h2>Notre impact en quelques chiffres</h2>
-                <p>Des résultats concrets qui témoignent de notre engagement et de la confiance de nos clients.</p>
+                <p>Des résultats concrets qui témoignent de notre engagement envers nos clients.</p>
             </div>
             <div class="stats-grid">
                 <div class="stat-card">
@@ -729,130 +786,45 @@
         </div>
     </section>
 
-    <!-- Contact -->
-    <section class="contact-section" id="contact">
-        <h2>Contactez-nous</h2>
-        <p>
-            MATOCCAZ — 31 Avenue des Temps Modernes, 86360 CHASSENEUIL DU POITOU<br>
-            Téléphone : <a href="tel:+33549494949">+33 (0)5 49 49 49 49</a><br>
-            Email : <a href="mailto:contact@matoccaz.fr">contact@matoccaz.fr</a>
-        </p>
-    </section>
+    <!-- SECTION FAQ -->
+    <section class="section-faq">
+        <div class="faq-container">
+            <h2>Foire Aux <span>Questions</span></h2>
+            
+            <div class="faq-item">
+                <button class="faq-question">
+                    Livrez-vous à l'international ?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Oui, c'est notre spécialité. Nous livrons régulièrement en Europe, en Afrique et au Moyen-Orient. Nous nous occupons de toute la logistique (transport maritime, routier) et des formalités douanières.</p>
+                </div>
+            </div>
 
-    <footer>
-        <p>MATOCCAZ – Tous droits réservés © 2026</p>
-    </footer>
+            <div class="faq-item">
+                <button class="faq-question">
+                    Vos machines sont-elles garanties ?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Nos machines d'occasion sont rigoureusement inspectées avant la vente. Nous vous fournissons un rapport détaillé de leur état. De plus, nous restons en contact avec vous après la livraison pour vous accompagner.</p>
+                </div>
+            </div>
 
-    <script>
-        const menuBtn = document.getElementById('menuBtn');
-        const navMenu = document.getElementById('navMenu');
-        const menuIcon = menuBtn.querySelector('i');
-        menuBtn.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
-            menuIcon.className = navMenu.classList.contains('active') ? 'fas fa-times' : 'fas fa-bars';
-        });
+            <div class="faq-item">
+                <button class="faq-question">
+                    Quels sont les moyens de paiement acceptés ?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Nous sécurisons toutes nos transactions internationales. Nous acceptons les virements bancaires (SWIFT) et pouvons utiliser des lettres de crédit pour garantir la sécurité de l'achat.</p>
+                </div>
+            </div>
 
-        // Scroll animation — simple & stable for PC + mobile
-        const processSection = document.getElementById('how-it-works');
-        const stepCards = document.querySelectorAll('.step-card');
-        let ticking = false;
-
-        function updateAnimations() {
-            if (!processSection) return;
-
-            const rect = processSection.getBoundingClientRect();
-            const vh = window.innerHeight;
-
-            // Section visible in viewport?
-            const sectionVisible = rect.bottom > vh * 0.2 && rect.top < vh * 0.8;
-
-            stepCards.forEach((card, index) => {
-                const cardRect = card.getBoundingClientRect();
-
-                // Card in middle 50% of viewport
-                const isVisible = sectionVisible && cardRect.bottom > vh * 0.3 && cardRect.top < vh * 0.7;
-
-                if (isVisible) {
-                    // Add classes with stagger delay
-                    card.classList.add('scroll-visible');
-
-                    setTimeout(() => {
-                        card.classList.add('scroll-active');
-                    }, index * 150);
-                } else {
-                    // Only reset if completely out of view (top or bottom)
-                    if (rect.bottom < vh * 0.1 || rect.top > vh * 0.9) {
-                        card.classList.remove('scroll-visible', 'scroll-active');
-                    }
-                }
-            });
-
-            ticking = false;
-        }
-
-        // Animation for stats counters
-        const statCounters = document.querySelectorAll('.stat-counter');
-        const statsSection = document.querySelector('#nos-chiffres');
-        let statsAnimated = false;
-
-        if (statsSection) {
-            const statsObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting && !statsAnimated) {
-                        statsAnimated = true;
-
-                        // Animate counters
-                        statCounters.forEach(counter => {
-                            const target = +counter.getAttribute('data-target');
-                            const duration = 2000;
-                            const startTime = performance.now();
-
-                            const animate = (currentTime) => {
-                                const elapsed = currentTime - startTime;
-                                const progress = Math.min(elapsed / duration, 1);
-                                const easeOut = 1 - Math.pow(1 - progress, 3);
-                                counter.textContent = Math.floor(easeOut * target);
-
-                                if (progress < 1) {
-                                    requestAnimationFrame(animate);
-                                } else {
-                                    counter.textContent = target;
-                                }
-                            };
-
-                            requestAnimationFrame(animate);
-                        });
-
-                        // Animate progress bars
-                        setTimeout(() => {
-                            document.querySelectorAll('.stat-card').forEach(card => {
-                                card.classList.add('animated');
-                            });
-                        }, 300);
-                    }
-                });
-            }, { threshold: 0.3 });
-
-            statsObserver.observe(statsSection);
-        }
-
-        window.addEventListener('scroll', () => {
-            if (!ticking) {
-                requestAnimationFrame(updateAnimations);
-                ticking = true;
-            }
-        }, { passive: true });
-
-        // PC hover effect
-        stepCards.forEach(card => {
-            card.addEventListener('mouseenter', () => {
-                stepCards.forEach(c => c.classList.remove('scroll-active'));
-                card.classList.add('scroll-active');
-            });
-        });
-
-        // Initial check
-        setTimeout(updateAnimations, 200);
-    </script>
-</body>
-</html>
+            <div class="faq-item">
+                <button class="faq-question">
+                    Puis-je venir voir la machine avant d'acheter ?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Absolument. Nos machines sont stockées sur notre site en France. Nous vous accueillons avec plaisir pour que vous puissiez inspecter le matériel, ou nous pouvons organi
