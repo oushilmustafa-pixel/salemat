@@ -29,7 +29,7 @@
             justify-content: space-between;
             align-items: center;
         }
-        .top-bar-info { color: var(--white); font-size: 0.85rem; font-weight: 600; }
+        .top-bar-info, .top-bar-info a { color: var(--white); font-size: 0.85rem; font-weight: 600; text-decoration: none; }
         .top-bar-info i { margin-right: 6px; }
         .top-bar-social a { color: var(--white); font-size: 1rem; text-decoration: none; }
 
@@ -600,7 +600,7 @@
 
     <!-- Top Bar orange -->
     <div class="top-bar">
-        <span class="top-bar-info"><i class="fas fa-phone"></i>+33 (0)5 49 49 49 49</span>
+        <span class="top-bar-info"><a href="tel:+33549494949"><i class="fas fa-phone"></i>+33 (0)5 49 49 49 49</a></span>
         <div class="top-bar-social">
             <a href="#"><i class="fab fa-facebook-f"></i></a>
         </div>
@@ -827,4 +827,171 @@
                     <span class="faq-icon">+</span>
                 </button>
                 <div class="faq-answer">
-                    <p>Absolument. Nos machines sont stockées sur notre site en France. Nous vous accueillons avec plaisir pour que vous puissiez inspecter le matériel, ou nous pouvons organi
+                    <p>Absolument. Nos machines sont stockées sur notre site en France. Nous vous accueillons avec plaisir pour que vous puissiez inspecter le matériel, ou nous pouvons organiser une visite vidéo en direct si vous êtes à l'étranger.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>Navigation</h3>
+                <ul class="footer-links">
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="#categories">Catégories</a></li>
+                    <li><a href="#arrives">Nos arrivées</a></li>
+                    <li><a href="mailto:contact@matoccaz.fr">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Contact</h3>
+                <ul class="footer-contact">
+                    <li class="address">31 Avenue des Temps Modernes<br>86360 CHASSENEUIL DU POITOU</li>
+                    <li><a href="tel:+33549494949">+33 (0)5 49 49 49 49</a></li>
+                    <li><a href="mailto:contact@matoccaz.fr">contact@matoccaz.fr</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Horaires</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Lundi - Vendredi : 8h - 18h</a></li>
+                    <li><a href="#">Samedi : 9h - 12h</a></li>
+                    <li><a href="#">Dimanche : Fermé</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 MATOCCAZ. Tous droits réservés.</p>
+            <div class="footer-legal">
+                <a href="#">Mentions légales</a>
+                <a href="#">Politique de confidentialité</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const menuBtn = document.getElementById('menuBtn');
+        const navMenu = document.getElementById('navMenu');
+        const menuIcon = menuBtn.querySelector('i');
+        menuBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            menuIcon.className = navMenu.classList.contains('active') ? 'fas fa-times' : 'fas fa-bars';
+        });
+
+        // Scroll animation — simple & stable for PC + mobile
+        const processSection = document.getElementById('how-it-works');
+        const stepCards = document.querySelectorAll('.step-card');
+        let ticking = false;
+
+        function updateAnimations() {
+            if (!processSection) return;
+
+            const rect = processSection.getBoundingClientRect();
+            const vh = window.innerHeight;
+
+            // Section visible in viewport?
+            const sectionVisible = rect.bottom > vh * 0.2 && rect.top < vh * 0.8;
+
+            stepCards.forEach((card, index) => {
+                const cardRect = card.getBoundingClientRect();
+
+                // Card in middle 50% of viewport
+                const isVisible = sectionVisible && cardRect.bottom > vh * 0.3 && cardRect.top < vh * 0.7;
+
+                if (isVisible) {
+                    // Add classes with stagger delay
+                    card.classList.add('scroll-visible');
+
+                    setTimeout(() => {
+                        card.classList.add('scroll-active');
+                    }, index * 150);
+                } else {
+                    // Only reset if completely out of view (top or bottom)
+                    if (rect.bottom < vh * 0.1 || rect.top > vh * 0.9) {
+                        card.classList.remove('scroll-visible', 'scroll-active');
+                    }
+                }
+            });
+
+            ticking = false;
+        }
+
+        // Animation for stats counters
+        const statCounters = document.querySelectorAll('.stat-counter');
+        const statsSection = document.querySelector('#nos-chiffres');
+        let statsAnimated = false;
+
+        if (statsSection) {
+            const statsObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !statsAnimated) {
+                        statsAnimated = true;
+
+                        // Animate counters
+                        statCounters.forEach(counter => {
+                            const target = +counter.getAttribute('data-target');
+                            const duration = 2000;
+                            const startTime = performance.now();
+
+                            const animate = (currentTime) => {
+                                const elapsed = currentTime - startTime;
+                                const progress = Math.min(elapsed / duration, 1);
+                                const easeOut = 1 - Math.pow(1 - progress, 3);
+                                counter.textContent = Math.floor(easeOut * target);
+
+                                if (progress < 1) {
+                                    requestAnimationFrame(animate);
+                                } else {
+                                    counter.textContent = target;
+                                }
+                            };
+
+                            requestAnimationFrame(animate);
+                        });
+
+                        // Animate progress bars
+                        setTimeout(() => {
+                            document.querySelectorAll('.stat-card').forEach(card => {
+                                card.classList.add('animated');
+                            });
+                        }, 300);
+                    }
+                });
+            }, { threshold: 0.3 });
+
+            statsObserver.observe(statsSection);
+        }
+
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(updateAnimations);
+                ticking = true;
+            }
+        }, { passive: true });
+
+        // PC hover effect
+        stepCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                stepCards.forEach(c => c.classList.remove('scroll-active'));
+                card.classList.add('scroll-active');
+            });
+        });
+
+        // Initial check
+        setTimeout(updateAnimations, 200);
+
+        // FAQ Toggle
+        document.querySelectorAll('.faq-question').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const item = btn.parentElement;
+                const wasOpen = item.classList.contains('open');
+                // Close all
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+                // Toggle current
+                if (!wasOpen) item.classList.add('open');
+            });
+        });
+    </script>
+</body>
+</html>
